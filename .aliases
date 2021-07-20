@@ -1,5 +1,4 @@
 # Common
-alias ls='ls -G'
 alias pping='ping google.com'
 alias nconf='nano ~/.zshrc'
 alias cconf='code ~/.zshrc'
@@ -21,6 +20,7 @@ alias cp-aws-token="echo -n $AWS_SESSION_TOKEN | pbcopy"
 alias path='echo $PATH | tr -s ":" "\n"'
 
 # Git related
+alias g='git'
 alias gcm='git commit -m'
 alias gpl='git pull'
 alias gpl-all-folders="find . -type d -depth 1 -exec git --git-dir={}/.git --work-tree=$PWD/{} pull origin master"
@@ -52,6 +52,7 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias cd..='cd ..'
-alias ll="ls -al"
-alias ln="ln -v"
-alias mkdir="mkdir -p"
+alias ls='ls --color=auto'
+alias ll='ls -al'
+alias ln='ln -v'
+alias mkdir='mkdir -p'

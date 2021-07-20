@@ -1,16 +1,21 @@
-# aws-vault
-alias av='aws-vault'
-alias ave='aws-vault exec'
-alias avl='aws-vault list'
-alias av-wik-admin='aws-vault exec whoiskai-admin --duration=4h'
-
 # Common
+alias ls='ls -G'
 alias pping='ping google.com'
 alias nconf='nano ~/.zshrc'
 alias cconf='code ~/.zshrc'
 alias sconf='source ~/.zshrc'
 alias publicip='curl http://checkip.amazonaws.com/'
+alias nsl="nslookup"
 alias c='code'
+
+# aws-vault
+alias av='aws-vault'
+alias ave='aws-vault exec'
+alias avl='aws-vault list'
+alias av-wik-admin='aws-vault exec whoiskai-admin --duration=4h'
+alias cp-aws-id="echo -n $AWS_ACCESS_KEY_ID | pbcopy"
+alias cp-aws-secret="echo -n $AWS_SECRET_ACCESS_KEY | pbcopy"
+alias cp-aws-token="echo -n $AWS_SESSION_TOKEN | pbcopy"
 
 # Pretty print the path
 alias path='echo $PATH | tr -s ":" "\n"'
@@ -18,18 +23,22 @@ alias path='echo $PATH | tr -s ":" "\n"'
 # Git related
 alias gcm='git commit -m'
 alias gpl='git pull'
+alias gpl-all-folders="find . -type d -depth 1 -exec git --git-dir={}/.git --work-tree=$PWD/{} pull origin master"
 alias gtag='git describe --tags `git rev-list --tags --max-count=1`'
+alias gds='git diff --staged'
+alias gp='git push'
 
 # Terragrunt
-alias tg='terragrunt'
-alias tga='terragrunt apply'
-alias tga-all='terragrunt apply-all'
-alias tgp='terragrunt plan'
-alias tgd='terragrunt destroy'
-alias tgd-all='terragrunt destroy-all'
+alias tg="terragrunt"
+alias tga="terragrunt apply -compact-warnings"
+alias tga-aa="terragrunt apply --auto-approve -compact-warnings"
+alias tgd="terragrunt destroy -compact-warnings"
+alias tgd-aa="terragrunt destroy --auto-approve -compact-warnings"
+alias tgd-aa"terragrunt destroy --auto-approve -compact-warnings"
+alias tgp="terragrunt plan -compact-warnings"
 
-alias tga-aa='terragrunt apply -auto-approve'
-alias tgd-aa='terragrunt destroy -auto-approve'
+# Kubernetes
+alias ktx="kubectx"
 
 # Ansible
 alias ap='ansible-playbook $1'

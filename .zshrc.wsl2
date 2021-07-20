@@ -1,6 +1,10 @@
 # Custom: antibody plugin manager
 source ~/.zsh_plugins.sh
 
+# My aliases
+source $HOME/.aliases
+source $HOME/.aliases.local
+
 # Custom: thefuck
 _evalcache thefuck --alias
 
@@ -29,9 +33,6 @@ zstyle ':completion:*' matcher-list 'l:|=* r:|=*'
 
 # Custom: AWS vault config using "pass" keyvault tool
 export AWS_VAULT_BACKEND=pass
-
-# My aliases
-source $HOME/.aliases
 
 # Opt out of homebrew analytics
 # https://docs.brew.sh/Analytics

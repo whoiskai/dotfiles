@@ -1,0 +1,36 @@
+# Custom: antibody plugin manager
+source ${HOME}/.zsh_plugins.sh
+
+# My aliases
+source $HOME/.aliases
+source $HOME/.aliases.local
+
+# Custom: right prompt timestamp
+RPROMPT="%F{250}%K{000} %D{%H:%M:%S}"
+
+# Custom: fix gpg
+export GPG_TTY=$(tty)
+
+# Custom: autojump plugin
+[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+
+# Custom: thefuck plugin
+_evalcache thefuck --alias
+
+# Custom: scmpuff
+_evalcache scmpuff init -s
+
+# smart completion check for left and right
+zstyle ':completion:*' matcher-list 'l:|=* r:|=*' 
+
+timezsh() {
+    shell=${1-$SHELL}
+    for i in $(seq 1 10); do time $shell -i -c exit; done
+}
+
+# Opt out of homebrew analytics
+# https://docs.brew.sh/Analytics
+export HOMEBREW_NO_ANALYTICS=1
+
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"

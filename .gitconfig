@@ -1,0 +1,10 @@
+[user]
+	signingkey = 8CD59D9980FCC396
+	email = 6267554+whoiskai@users.noreply.github.com
+	name = Kai Hong
+[commit]
+	gpgsign = true
+[alias]
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+[pull]
+	ff = only

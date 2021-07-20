@@ -1,0 +1,48 @@
+# aws-vault
+alias av='aws-vault'
+alias ave='aws-vault exec'
+alias avl='aws-vault list'
+alias av-wik-admin='aws-vault exec whoiskai-admin --duration=4h'
+
+# Common
+alias pping='ping google.com'
+alias nconf='nano ~/.zshrc'
+alias cconf='code ~/.zshrc'
+alias sconf='source ~/.zshrc'
+alias publicip='curl http://checkip.amazonaws.com/'
+alias c='code'
+
+# Pretty print the path
+alias path='echo $PATH | tr -s ":" "\n"'
+
+# Git related
+alias gcm='git commit -m'
+alias gpl='git pull'
+alias gtag='git describe --tags `git rev-list --tags --max-count=1`'
+
+# Terragrunt
+alias tg='terragrunt'
+alias tga='terragrunt apply'
+alias tga-all='terragrunt apply-all'
+alias tgp='terragrunt plan'
+alias tgd='terragrunt destroy'
+alias tgd-all='terragrunt destroy-all'
+
+alias tga-aa='terragrunt apply -auto-approve'
+alias tgd-aa='terragrunt destroy -auto-approve'
+
+# Ansible
+alias ap='ansible-playbook $1'
+alias apc='ansible-playbook $1 --check'
+alias apsc='ansible-playbook $1 --syntax-check'
+alias alh='ansible --list-hosts $1'
+
+# Navigation
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias cd..='cd ..'
+alias ll="ls -al"
+alias ln="ln -v"
+alias mkdir="mkdir -p"

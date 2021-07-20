@@ -1,0 +1,46 @@
+# Custom: antibody plugin manager
+source ~/.zsh_plugins.sh
+
+# Custom: thefuck
+_evalcache thefuck --alias
+
+# Custom: git scmpuff
+_evalcache scmpuff init -s
+
+# Custom: pyenv plugin
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+pyenv() {
+    echo "Lazy loading pyenv..."
+    eval "$(command pyenv init -)"
+    pyenv "$@"
+}
+
+timezsh() {
+    shell=${1-$SHELL}
+    for i in $(seq 1 10); do time $shell -i -c exit; done
+}
+
+# Smart completion check for left and right
+zstyle ':completion:*' matcher-list 'l:|=* r:|=*'
+
+# autojump
+[ -f /home/linuxbrew/.linuxbrew/etc/profile.d/autojump.sh ] && . /home/linuxbrew/.linuxbrew/etc/profile.d/autojump.sh
+
+# Custom: AWS vault config using "pass" keyvault tool
+export AWS_VAULT_BACKEND=pass
+
+# My aliases
+source $HOME/.aliases
+
+# Opt out of homebrew analytics
+# https://docs.brew.sh/Analytics
+export HOMEBREW_NO_ANALYTICS=1
+
+# copy and paste
+alias pbcopy="clip.exe"
+alias pbpaste="powershell.exe -command 'Get-Clipboard' | head -n -1"
+
+# volta
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"

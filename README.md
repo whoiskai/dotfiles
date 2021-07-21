@@ -28,3 +28,20 @@ Desktop: Core i7-8700
 0.05s user 0.00s system 0.073 total
 ```
 
+## MacOS 
+
+MBP: 13" 2020 2.3Ghz i7
+
+```
+# timezsh
+0.10s user 0.06s system 0.183 total
+0.10s user 0.06s system 0.165 total
+0.10s user 0.06s system 0.164 total
+0.10s user 0.06s system 0.172 total
+0.10s user 0.06s system 0.173 total
+0.10s user 0.05s system 0.164 total
+0.10s user 0.05s system 0.164 total
+0.10s user 0.06s system 0.164 total
+0.10s user 0.06s system 0.163 total
+0.10s user 0.05s system 0.161 total
+```

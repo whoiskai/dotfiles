@@ -3,12 +3,14 @@ alias pping='ping google.com'
 alias nconf='nano ~/.zshrc'
 alias cconf='code ~/.zshrc'
 alias sconf='source ~/.zshrc'
+alias caws='code ~/.aws/config'
 alias publicip='curl http://checkip.amazonaws.com/'
 alias nsl="nslookup"
 alias c='code'
 
 # aws-vault
 alias av='aws-vault'
+alias avc='echo $AWS_VAULT'
 alias ave='aws-vault exec'
 alias avl='aws-vault list'
 alias av-wik-admin='aws-vault exec whoiskai-admin --duration=4h'
@@ -27,6 +29,9 @@ alias gpl-all-folders="find . -type d -depth 1 -exec git --git-dir={}/.git --wor
 alias gtag='git describe --tags `git rev-list --tags --max-count=1`'
 alias gds='git diff --staged'
 alias gp='git push'
+alias gb='git branch'
+alias grb='git rebase'
+alias gbd='git branch -d'
 
 # Terragrunt
 alias tg="terragrunt"
@@ -52,7 +57,9 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias cd..='cd ..'
-alias ls='ls --color=auto'
+#alias ls='ls --color=auto'
+alias ls='ls -G'
+alias l='ls -G'
 alias ll='ls -al'
 alias ln='ln -v'
 alias mkdir='mkdir -p'

@@ -7,6 +7,7 @@ alias caws='code ~/.aws/config'
 alias publicip='curl http://checkip.amazonaws.com/'
 alias nsl="nslookup"
 alias c='code'
+alias awss='aws sts get-caller-identity'
 
 # aws-vault
 alias av='aws-vault'
@@ -14,9 +15,9 @@ alias avc='echo $AWS_VAULT'
 alias ave='aws-vault exec'
 alias avl='aws-vault list'
 alias av-wik-admin='aws-vault exec whoiskai-admin --duration=4h'
-alias cp-aws-id="echo -n $AWS_ACCESS_KEY_ID | pbcopy"
-alias cp-aws-secret="echo -n $AWS_SECRET_ACCESS_KEY | pbcopy"
-alias cp-aws-token="echo -n $AWS_SESSION_TOKEN | pbcopy"
+alias caid="echo -n $AWS_ACCESS_KEY_ID | pbcopy"
+alias casecret="echo -n $AWS_SECRET_ACCESS_KEY | pbcopy"
+alias catoken="echo -n $AWS_SESSION_TOKEN | pbcopy"
 
 # Pretty print the path
 alias path='echo $PATH | tr -s ":" "\n"'
@@ -35,6 +36,7 @@ alias gbd='git branch -d'
 
 # Terragrunt
 alias tg="terragrunt"
+alias tgi="terragrunt import $1 -compact-warnings"
 alias tga="terragrunt apply -compact-warnings"
 alias tga-aa="terragrunt apply --auto-approve -compact-warnings"
 alias tgd="terragrunt destroy -compact-warnings"
@@ -57,9 +59,19 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias cd..='cd ..'
+alias d='dirs -v | head -10'
+alias 1='cd -'
+alias 2='cd -2'
+alias 3='cd -3'
+alias 4='cd -4'
+alias 5='cd -5'
+alias 6='cd -6'
+alias 7='cd -7'
+alias 8='cd -8'
+alias 9='cd -9'
 #alias ls='ls --color=auto'
-alias ls='ls -G'
-alias l='ls -G'
-alias ll='ls -al'
+alias ls='ls -Gh'
+alias l='ls -Gh'
+alias ll='ls -alh'
 alias ln='ln -v'
 alias mkdir='mkdir -p'

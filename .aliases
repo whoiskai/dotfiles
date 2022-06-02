@@ -43,6 +43,7 @@ alias tgd="terragrunt destroy -compact-warnings"
 alias tgd-aa="terragrunt destroy --auto-approve -compact-warnings"
 alias tgd-aa"terragrunt destroy --auto-approve -compact-warnings"
 alias tgp="terragrunt plan -compact-warnings"
+alias tgpl='terragrunt providers lock -platform=linux_amd64  --terragrunt-source-update && terragrunt providers lock -platform=linux_amd64 -platform=darwin_amd64 -platform=darwin_arm64 -platform=windows_amd64 --terragrunt-source-update'
 
 # Kubernetes
 alias ktx="kubectx"

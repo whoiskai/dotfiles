@@ -1,0 +1,82 @@
+# Common
+alias pping='ping google.com'
+alias nconf='nano ~/.zshrc'
+alias cconf='code ~/.zshrc'
+alias sconf='source ~/.zshrc'
+alias caws='code ~/.aws/config'
+alias publicip='curl http://checkip.amazonaws.com/'
+alias ip4='curl -4 ifconfig.co/'
+alias ip4j='curl -4 ifconfig.co/json'
+alias ip6='curl -6 ifconfig.co/'
+alias ip6j='curl -6 ifconfig.co/json'
+alias myip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'"
+alias nsl="nslookup"
+alias c='code'
+alias awss='aws sts get-caller-identity'
+
+# aws-vault
+alias av='aws-vault'
+alias avc='echo $AWS_VAULT'
+alias ave='aws-vault exec'
+alias avl='aws-vault list'
+alias caid="echo -n $AWS_ACCESS_KEY_ID | pbcopy"
+alias casecret="echo -n $AWS_SECRET_ACCESS_KEY | pbcopy"
+alias catoken="echo -n $AWS_SESSION_TOKEN | pbcopy"
+
+# Pretty print the path
+alias path='echo $PATH | tr -s ":" "\n"'
+
+# Git related
+alias g='git'
+alias gcm='git commit -m'
+alias gpl='git pull'
+alias gpl-all-folders="find . -type d -depth 1 -exec git --git-dir={}/.git --work-tree=$PWD/{} pull origin master"
+alias gtag='git describe --tags `git rev-list --tags --max-count=1`'
+alias gds='git diff --staged'
+alias gp='git push'
+alias gb='git branch'
+alias grb='git rebase'
+alias gbd='git branch -d'
+
+# Terragrunt
+alias tg="terragrunt"
+alias tgi="terragrunt import $1 -compact-warnings"
+alias tga="terragrunt apply -compact-warnings"
+alias tga-aa="terragrunt apply --auto-approve -compact-warnings"
+alias tgd="terragrunt destroy -compact-warnings"
+alias tgd-aa="terragrunt destroy --auto-approve -compact-warnings"
+alias tgd-aa"terragrunt destroy --auto-approve -compact-warnings"
+alias tgp="terragrunt plan -compact-warnings"
+alias tgpl='terragrunt providers lock -platform=linux_amd64  --terragrunt-source-update && terragrunt providers lock -platform=linux_amd64 -platform=darwin_amd64 -platform=darwin_arm64 -platform=windows_amd64 --terragrunt-source-update'
+
+# Kubernetes
+alias ktx="kubectx"
+
+# Ansible
+alias ap='ansible-playbook $1'
+alias apc='ansible-playbook $1 --check'
+alias apsc='ansible-playbook $1 --syntax-check'
+alias alh='ansible --list-hosts $1'
+
+# Navigation
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias cd..='cd ..'
+alias d='dirs -v | head -10'
+alias 1='cd -'
+alias 2='cd -2'
+alias 3='cd -3'
+alias 4='cd -4'
+alias 5='cd -5'
+alias 6='cd -6'
+alias 7='cd -7'
+alias 8='cd -8'
+alias 9='cd -9'
+#alias ls='ls --color=auto'
+alias ls='ls -Gh'
+alias l='ls -Gh'
+alias ll='ls -alh'
+alias ln='ln -v'
+alias mkdir='mkdir -p'

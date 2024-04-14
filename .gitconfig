@@ -34,7 +34,14 @@
 	autoSetupRemote = true
 [color]
 	ui = auto
+[rerere]
+	enabled = true
+	autoUpdate = true
+[branch]
+	sort = -committerdate
 # [gpg]
 # 	format = x509
 # [gpg "x509"]
 # 	program = smimesign
+[maintenance]
+	repo = /Users/whoiskai/dotfiles

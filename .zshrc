@@ -19,7 +19,7 @@ done
 compinit -C
 
 # Custom: right prompt timestamp
-RPROMPT="%F{250}%K{000} %D{%H:%M:%S}"
+# RPROMPT="%F{250}%K{000} %D{%H:%M:%S}"
 
 # Custom: fix gpg
 export GPG_TTY=$(tty)
@@ -57,5 +57,3 @@ export PATH="$VOLTA_HOME/bin:$PATH"
 autoload -U +X bashcompinit && bashcompinit
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
-PATH=~/.console-ninja/.bin:$PATH

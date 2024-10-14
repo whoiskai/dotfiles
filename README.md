@@ -16,13 +16,15 @@ brew install stow
 stow .
 ```
 
+Things are not fully working yet at this point, follow the full setup
+
 ## Full setup
 
 ```bash
 # After setting up brew
 # Install all brew packages
-brew install antidote scmpuff volta terragrunt tmux jq autojump smimesign
-brew install --cask aws-vault
+brew install antidote scmpuff volta terragrunt tmux jq autojump smimesign git-delta
+brew install --cask aws-vault font-fira-code-nerd-font iterm2
 
 # Generate new SSH key for cloning this repo
 ssh-keygen -t ed25519
@@ -64,3 +66,7 @@ defaults write -g NSWindowResizeTime -float 0.00;
 defaults write -g QLPanelAnimationDuration -float 0;
 killall Dock;
 ```
+
+## iTerm2 configuration
+Go to iTerm2 `General > Settings` and Load settings from a custom folder or URL
+- `/Users/{USER}/dotfiles/System/iTerm/settings`

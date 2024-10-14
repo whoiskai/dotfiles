@@ -27,6 +27,9 @@ export GPG_TTY=$(tty)
 # Custom: autojump plugin
 [ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
 
+# Custom: bash completion
+[ -r "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh" ] && . "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
+
 # Custom: scmpuff
 _evalcache scmpuff init -s
 

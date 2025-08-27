@@ -15,3 +15,9 @@ option_as_alt = "Both"
 [font]
 normal.family = "FiraCode Nerd Font Mono"
 size = 14
+
+[keyboard]
+bindings = [
+  { key = "Right", mods = "Alt", chars = "\u001BF" },
+  { key = "Left",  mods = "Alt", chars = "\u001BB" },
+]

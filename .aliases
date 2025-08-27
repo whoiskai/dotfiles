@@ -52,6 +52,7 @@ alias tgpl='terragrunt providers lock -platform=linux_amd64  --terragrunt-source
 
 # Kubernetes
 alias ktx="kubectx"
+alias k="kubectl"
 
 # Ansible
 alias ap='ansible-playbook $1'

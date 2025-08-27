@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Custom: Lazy-load antidote and generate the static load file only when needed
 source /opt/homebrew/opt/antidote/share/antidote/antidote.zsh
 zsh_plugins=${ZDOTDIR:-$HOME}/.zsh_plugins
@@ -56,7 +63,26 @@ export TF_PLUGIN_CACHE_DIR="$HOME/.terraform.d/plugin-cache"
 
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 autoload -U +X bashcompinit && bashcompinit
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# history setup
+HISTFILE=$HOME/.zhistory
+SAVEHIST=1000
+HISTSIZE=999
+setopt share_history
+setopt hist_expire_dups_first
+setopt hist_ignore_dups
+setopt hist_verify
+
+bindkey "^[[A" history-search-backward
+bindkey "^[[B" history-search-forward
+
+alias cd="z"
+eval "$(zoxide init zsh)"

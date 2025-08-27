@@ -4,16 +4,10 @@
 Make sure you cloned this repo into your $HOME directory via git
 
 ```bash
+brew install stow
 git clone git@github.com:whoiskai/dotfiles.git
 cd dotfiles
-```
-
-Then use GNU stow to create the symlinks
-
-```bash
-brew install stow
-# inside of $HOME/dotfiles
-stow .
+stow --target=$HOME .
 ```
 
 Things are not fully working yet at this point, follow the full setup
@@ -21,11 +15,6 @@ Things are not fully working yet at this point, follow the full setup
 ## Full setup
 
 ```bash
-# After setting up brew
-# Install all brew packages
-brew install antidote scmpuff volta terragrunt tmux jq autojump smimesign git-delta
-brew install --cask aws-vault font-fira-code-nerd-font iterm2
-
 # Generate new SSH key for cloning this repo
 ssh-keygen -t ed25519
 cat ~/.ssh/id_ed25519.pub | pbcopy
@@ -41,7 +30,13 @@ gpg --armor --export KEY_ID
 
 # Clone this repo
 git clone git@github.com:whoiskai/dotfiles.git ~/
-stow .
+stow --target=$HOME .
+
+# After setting up brew
+# Install all brew packages
+brew install --cask alacritty aws-vault font-fira-code-nerd-font raycast obsidian visual-studio-code google-chrome rectangle telegram
+
+brew install git zoxide fd rg fzf antidote scmpuff terragrunt tmux jq smimesign git-delta fastfetch powerlevel10k
 
 # Install zsh plugins
 antidote bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.sh
@@ -50,11 +45,6 @@ antidote bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.sh
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 tmux source ~/.tmux.conf
 # prefix + I (capital i)
-
-volta install node
-
-# Install iterm2 themes
-# https://iterm2colorschemes.com/
 
 # Remove dock delay and animation
 defaults write com.apple.dock autohide-delay -float 0;
@@ -67,6 +57,11 @@ defaults write -g QLPanelAnimationDuration -float 0;
 killall Dock;
 ```
 
-## iTerm2 configuration
-Go to iTerm2 `General > Settings` and Load settings from a custom folder or URL
-- `/Users/{USER}/dotfiles/System/iTerm/settings`
+## Alacritty configuration
+
+```bash
+git clone g clone https://github.com/alacritty/alacritty-theme.git ~/.config/alacritty/themes
+```
+
+Raycast settings
+Applications -> Alacritty : Record hotkey for global hotkey.

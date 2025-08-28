@@ -86,3 +86,9 @@ bindkey "^[[B" history-search-forward
 
 alias cd="z"
 eval "$(zoxide init zsh)"
+
+# mise Configuration
+eval "$(mise activate zsh)"
+
+# Node.js Cloudflare CA certificates
+export NODE_EXTRA_CA_CERTS="/Users/whoiskai/.config/cloudflare/Cloudflare_CA.pem"

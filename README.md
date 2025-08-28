@@ -34,9 +34,10 @@ stow --target=$HOME .
 
 # After setting up brew
 # Install all brew packages
-brew install --cask alacritty aws-vault font-fira-code-nerd-font raycast obsidian visual-studio-code google-chrome rectangle telegram
+brew bundle install
 
-brew install git zoxide fd rg fzf antidote scmpuff terragrunt tmux jq smimesign git-delta fastfetch powerlevel10k
+# Install dev tools with mise
+mise install
 
 # Install zsh plugins
 antidote bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.sh

@@ -1,0 +1,8 @@
+[tools]
+go = "1.25"
+helm = "latest"
+kubectl = "latest"
+kubectx = "latest"
+kubeseal = "latest"
+node = "lts"
+terragrunt = "latest"

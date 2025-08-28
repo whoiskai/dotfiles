@@ -60,6 +60,9 @@ export VISUAL='nano'
 
 # Terraform cache
 export TF_PLUGIN_CACHE_DIR="$HOME/.terraform.d/plugin-cache"
+export TG_LOG_FORMAT=bare
+export TG_PROVIDER_CACHE=1
+export TG_PROVIDER_CACHE_DIR="$HOME/.terraform.d/plugin-cache"
 
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"

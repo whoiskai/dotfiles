@@ -41,7 +41,7 @@ export GPG_TTY=$(tty)
 _evalcache scmpuff init -s
 
 # smart completion check for left and right
-zstyle ':completion:*' matcher-list 'l:|=* r:|=*' 
+zstyle ':completion:*' menu yes select
 
 # cd without typing cd
 setopt  autocd autopushd

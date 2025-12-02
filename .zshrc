@@ -18,6 +18,7 @@ source ${zsh_plugins}.zsh
 
 # My aliases
 source $HOME/.aliases
+source $HOME/.aliases_local
 
 autoload -Uz compinit
 for dump in ~/.zcompdump(N.mh+24); do
@@ -56,7 +57,8 @@ timezsh() {
 export HOMEBREW_NO_ANALYTICS=1
 
 export EDITOR='nano'
-export VISUAL='nano'
+export VISUAL='code'
+export SOPS_EDITOR='code --wait --new-window --disable-workspace-trust --disable-extensions --disable-telemetry'
 
 # Terraform cache
 export TF_PLUGIN_CACHE_DIR="$HOME/.terraform.d/plugin-cache"
@@ -95,3 +97,8 @@ eval "$(mise activate zsh)"
 
 # Node.js Cloudflare CA certificates
 export NODE_EXTRA_CA_CERTS="/Users/whoiskai/.config/cloudflare/Cloudflare_CA.pem"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/whoiskai/.lmstudio/bin"
+# End of LM Studio CLI section
+

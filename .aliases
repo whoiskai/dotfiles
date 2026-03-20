@@ -14,6 +14,7 @@ alias myip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-
 alias nsl="nslookup"
 alias c='code'
 alias awss='aws sts get-caller-identity'
+alias python='python3'
 
 # aws-vault
 alias av='aws-vault'
@@ -38,6 +39,8 @@ alias gp='git push'
 alias gb='git branch'
 alias grb='git rebase'
 alias gbd='git branch -d'
+alias gbd-merged-dry='git branch --merged | grep -v "^\*\|main\|master" | xargs -n 1 echo'
+alias gbd-merged-run='git branch --merged | grep -Ev "^\*|main$|master$" | xargs -n 1 git branch -d'
 
 # Terragrunt
 alias tg="terragrunt"
@@ -46,9 +49,10 @@ alias tga="terragrunt apply -compact-warnings"
 alias tga-aa="terragrunt apply --auto-approve -compact-warnings"
 alias tgd="terragrunt destroy -compact-warnings"
 alias tgd-aa="terragrunt destroy --auto-approve -compact-warnings"
-alias tgd-aa"terragrunt destroy --auto-approve -compact-warnings"
+alias tgd-aa="terragrunt destroy --auto-approve -compact-warnings"
 alias tgp="terragrunt plan -compact-warnings"
 alias tgpl='terragrunt providers lock -platform=linux_amd64  --terragrunt-source-update && terragrunt providers lock -platform=linux_amd64 -platform=darwin_amd64 -platform=darwin_arm64 -platform=windows_amd64 --terragrunt-source-update'
+alias tga-all="terragrunt run --all -- apply"
 
 # Kubernetes
 alias ktx="kubectx"

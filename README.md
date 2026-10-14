@@ -66,3 +66,27 @@ git clone g clone https://github.com/alacritty/alacritty-theme.git ~/.config/ala
 
 Raycast settings
 Applications -> Alacritty : Record hotkey for global hotkey.
+
+## Microsoft To Do CLI (`todo`)
+
+`.local/bin/todo` adds and lists Microsoft To Do tasks through Microsoft Graph; `.claude/skills/todo/` tells Claude
+Code to use it for reminders. Needs `uv` (Brewfile). The login is per machine, in the macOS Keychain.
+
+```bash
+# If a full stow conflicts, link just these two
+mkdir -p ~/.local/bin ~/.claude/skills
+ln -s ../../dotfiles/.local/bin/todo ~/.local/bin/todo
+ln -s ../../dotfiles/.claude/skills/todo ~/.claude/skills/todo
+
+todo login   # device code sign-in; click "Always Allow" on the Keychain prompt
+
+# Let Claude Code run the read-only commands without asking
+python3 - <<'PY'
+import json, pathlib
+p = pathlib.Path.home() / ".claude/settings.json"
+d = json.loads(p.read_text()) if p.exists() else {}
+allow = d.setdefault("permissions", {}).setdefault("allow", [])
+allow += [r for r in ["Bash(todo ls:*)", "Bash(todo ls)", "Bash(todo lists)", "Bash(todo --help)"] if r not in allow]
+p.write_text(json.dumps(d, indent=2) + "\n")
+PY
+```

@@ -1,0 +1,194 @@
+#!/usr/bin/env -S uv run --quiet --script
+# /// script
+# requires-python = ">=3.12"
+# dependencies = ["msal>=1.31", "msal-extensions>=1.2", "requests>=2.32"]
+# ///
+"""Microsoft To Do from the command line, via Microsoft Graph.
+
+Sign-in is a one-time device code flow; the MSAL token cache (refresh token) lives in the
+macOS Keychain, never on disk. Times are local wall-clock time and are sent to Graph as UTC.
+
+  todo login
+  todo lists
+  todo ls [--list NAME] [--all]
+  todo add "title" [--list NAME] [--due YYYY-MM-DD] [--remind "YYYY-MM-DD HH:MM"] [--notes TEXT | --notes -]
+  todo done ID [--list NAME]
+  todo rm ID [--list NAME]
+
+IDs shown by `ls` are a short hash of the Graph task ID (Graph IDs share long prefixes and suffixes).
+"""
+
+import argparse
+import hashlib
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+import msal
+import requests
+from msal_extensions import KeychainPersistence, PersistedTokenCache
+
+CLIENT_ID = "78e3920c-8160-44ba-9cf9-216d4b8ac5c9"  # claude-todo app registration; not a secret
+AUTHORITY = "https://login.microsoftonline.com/consumers"
+SCOPES = ["Tasks.ReadWrite"]  # MSAL adds offline_access itself
+GRAPH = "https://graph.microsoft.com/v1.0"
+SIGNAL = Path.home() / ".config" / "claude-todo" / "keychain.signal"
+
+
+def app():
+    SIGNAL.parent.mkdir(parents=True, exist_ok=True)
+    cache = PersistedTokenCache(KeychainPersistence(str(SIGNAL), "claude-todo", "msal-cache"))
+    return msal.PublicClientApplication(CLIENT_ID, authority=AUTHORITY, token_cache=cache)
+
+
+def token(interactive=False):
+    a = app()
+    accounts = a.get_accounts()
+    if accounts:
+        result = a.acquire_token_silent(SCOPES, account=accounts[0])
+        if result and "access_token" in result:
+            return result["access_token"]
+    if not interactive:
+        sys.exit("todo: not signed in (or sign-in expired); run `todo login`")
+    flow = a.initiate_device_flow(scopes=SCOPES)
+    if "user_code" not in flow:
+        sys.exit(f"todo: device flow failed: {flow.get('error_description', flow)}")
+    print(flow["message"], flush=True)
+    result = a.acquire_token_by_device_flow(flow)
+    if "access_token" not in result:
+        sys.exit(f"todo: sign-in failed: {result.get('error_description', result.get('error'))}")
+    return result["access_token"]
+
+
+def graph(method, path, **kw):
+    r = requests.request(method, GRAPH + path, headers={"Authorization": f"Bearer {token()}"}, timeout=30, **kw)
+    if not r.ok:
+        sys.exit(f"todo: {method} {path}: {r.status_code} {r.text[:300]}")
+    return r.json() if r.content else None
+
+
+def paged(path, params=None):
+    out, url = [], path
+    while url:
+        page = graph("GET", url, params=params)
+        out += page["value"]
+        url, params = page.get("@odata.nextLink", "").removeprefix(GRAPH), None
+    return out
+
+
+def find_list(name):
+    lists = paged("/me/todo/lists")
+    if name is None:
+        return next(l for l in lists if l.get("wellknownListName") == "defaultList")
+    # Match without leading emoji, so `--list Homelab` finds "🧪 Homelab"
+    def bare(n):
+        return n.lstrip("".join(c for c in n if not c.isalnum())).strip().lower()
+    for l in lists:
+        if l["displayName"].lower() == name.lower() or bare(l["displayName"]) == bare(name):
+            return l
+    sys.exit(f"todo: no list named {name!r}; see `todo lists`")
+
+
+def short(task_id):
+    return hashlib.sha1(task_id.encode()).hexdigest()[:6]
+
+
+def find_task(lst, short_id):
+    matches = [t for t in paged(f"/me/todo/lists/{lst['id']}/tasks") if short(t["id"]).startswith(short_id)]
+    if len(matches) != 1:
+        sys.exit(f"todo: {len(matches)} tasks match {short_id!r} in {lst['displayName']!r}")
+    return matches[0]
+
+
+def utc(local):
+    """'YYYY-MM-DD HH:MM' local time -> Graph dateTimeTimeZone in UTC."""
+    dt = datetime.strptime(local, "%Y-%m-%d %H:%M").astimezone(timezone.utc)
+    return {"dateTime": dt.strftime("%Y-%m-%dT%H:%M:%S"), "timeZone": "UTC"}
+
+
+def local(dtz):
+    if not dtz:
+        return ""
+    dt = datetime.fromisoformat(dtz["dateTime"][:19]).replace(tzinfo=timezone.utc)
+    return dt.astimezone().strftime("%Y-%m-%d %H:%M")
+
+
+def cmd_login(_):
+    token(interactive=True)
+    print("signed in")
+
+
+def cmd_lists(_):
+    for l in paged("/me/todo/lists"):
+        mark = " (default)" if l.get("wellknownListName") == "defaultList" else ""
+        print(f"{l['displayName']}{mark}")
+
+
+def cmd_ls(args):
+    lst = find_list(args.list)
+    params = None if args.all else {"$filter": "status ne 'completed'"}
+    for t in paged(f"/me/todo/lists/{lst['id']}/tasks", params):
+        # Due dates are whole days; the date part is what the apps show
+        due = t.get("dueDateTime", {}).get("dateTime", "")[:10]
+        remind = local(t.get("reminderDateTime")) if t.get("isReminderOn") else ""
+        extra = "  ".join(x for x in (due and f"due {due}", remind and f"remind {remind}") if x)
+        print(f"{short(t['id'])}  [{'x' if t['status'] == 'completed' else ' '}] {' / '.join(t['title'].split(chr(10)))}  {extra}".rstrip())
+
+
+def cmd_add(args):
+    lst = find_list(args.list)
+    body = {"title": args.title}
+    if args.notes:
+        notes = sys.stdin.read() if args.notes == "-" else args.notes
+        body["body"] = {"content": notes, "contentType": "text"}
+    if args.due:
+        datetime.strptime(args.due, "%Y-%m-%d")
+        body["dueDateTime"] = {"dateTime": f"{args.due}T00:00:00", "timeZone": "UTC"}
+    if args.remind:
+        body["isReminderOn"] = True
+        body["reminderDateTime"] = utc(args.remind)
+    t = graph("POST", f"/me/todo/lists/{lst['id']}/tasks", json=body)
+    print(f"added {short(t['id'])} to {lst['displayName']}: {t['title']}")
+
+
+def cmd_done(args):
+    lst = find_list(args.list)
+    t = find_task(lst, args.id)
+    graph("PATCH", f"/me/todo/lists/{lst['id']}/tasks/{t['id']}", json={"status": "completed"})
+    print(f"done: {t['title']}")
+
+
+def cmd_rm(args):
+    lst = find_list(args.list)
+    t = find_task(lst, args.id)
+    graph("DELETE", f"/me/todo/lists/{lst['id']}/tasks/{t['id']}")
+    print(f"deleted: {t['title']}")
+
+
+def main():
+    p = argparse.ArgumentParser(prog="todo", description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    sub = p.add_subparsers(dest="cmd", required=True)
+    sub.add_parser("login").set_defaults(fn=cmd_login)
+    sub.add_parser("lists").set_defaults(fn=cmd_lists)
+    s = sub.add_parser("ls")
+    s.add_argument("--list")
+    s.add_argument("--all", action="store_true", help="include completed tasks")
+    s.set_defaults(fn=cmd_ls)
+    s = sub.add_parser("add")
+    s.add_argument("title")
+    s.add_argument("--list")
+    s.add_argument("--due", help="YYYY-MM-DD")
+    s.add_argument("--remind", help='"YYYY-MM-DD HH:MM" local time')
+    s.add_argument("--notes", help="text, or - to read stdin")
+    s.set_defaults(fn=cmd_add)
+    for name, fn in (("done", cmd_done), ("rm", cmd_rm)):
+        s = sub.add_parser(name)
+        s.add_argument("id")
+        s.add_argument("--list")
+        s.set_defaults(fn=fn)
+    args = p.parse_args()
+    args.fn(args)
+
+
+if __name__ == "__main__":
+    main()

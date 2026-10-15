@@ -73,10 +73,10 @@ Applications -> Alacritty : Record hotkey for global hotkey.
 Code to use it for reminders. Needs `uv` (Brewfile). The login is per machine, in the macOS Keychain.
 
 ```bash
-# If a full stow conflicts, link just these two
+# If a full stow conflicts, link just these two. Run from the repo root, wherever it's cloned
 mkdir -p ~/.local/bin ~/.claude/skills
-ln -s ../../dotfiles/.local/bin/todo ~/.local/bin/todo
-ln -s ../../dotfiles/.claude/skills/todo ~/.claude/skills/todo
+ln -sfn "$PWD/.local/bin/todo" ~/.local/bin/todo
+ln -sfn "$PWD/.claude/skills/todo" ~/.claude/skills/todo
 
 todo login   # device code sign-in; click "Always Allow" on the Keychain prompt
 
